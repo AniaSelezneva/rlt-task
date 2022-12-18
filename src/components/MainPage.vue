@@ -5,11 +5,19 @@
         <img 
           v-if="gridCell === matches[gridCell]?.position" 
           class="item" 
-          draggable="true" 
+          draggable="true"
           :id="matches[gridCell].name" 
           :key="matches[gridCell].name" 
           :alt="`${matches[gridCell].name} inventory item`" 
-          :src="`${matches[gridCell].fileName}`" />
+          :src="matches[gridCell].fileName" />
+        <ItemDescription 
+          v-if=" matches[gridCell] && clicked === matches[gridCell].name" 
+          :name="matches[gridCell]?.name"
+          :desctiption="matches[gridCell]?.desctiption"
+          :src="matches[gridCell]?.fileName"
+          @close="closeDescription"
+          @delete="deleteItem"
+        />
       </li>
     </ul>
   </div>
@@ -17,11 +25,13 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import ItemDescription from './ItemDescription.vue'
 import greenSvg from '../assets/green.svg'
 import yellowSvg from '../assets/yellow.svg'
 import purpleSvg from '../assets/purple.svg'
 
 const trigger = ref()
+const clicked = ref()
 
 const positions = JSON.parse(localStorage.getItem('positions')) || {};
 
@@ -29,16 +39,19 @@ const items = [{
     name: 'green',
     fileName: greenSvg,
     position: Number(positions.green) || 0,
+    desctiption: 'some desctiption'
   }, 
   {
     name: 'yellow',
     fileName: yellowSvg,
     position: Number(positions.yellow) || 1,
+    desctiption: 'some desctiption'
   },
   {
     name: 'purple',
     fileName: purpleSvg,
     position: Number(positions.purple) || 2,
+    desctiption: 'some desctiption'
   }
 ]
 
@@ -54,12 +67,15 @@ for (let i = 0; i < 25; i++) {
 }
 
 function dragstart_handler(ev) {
-  trigger.value = ev.srcElement
+  trigger.value = ev.srcElement;
 }
 
 function dragover_handler(ev) {
   ev.preventDefault();
   ev.dataTransfer.dropEffect = "move";
+  let img = new Image();
+  img.src = require("../assets/cursor_grab.png");
+  ev.dataTransfer.setDragImage(img, 18, 21);
 }
 
 function drop_handler(ev) {
@@ -71,12 +87,32 @@ function drop_handler(ev) {
   localStorage.setItem('positions', JSON.stringify(positions))
 }
 
+function click_handler(ev) {
+  clicked.value = ev.target.id
+}
+
+function closeDescription() {
+  clicked.value = undefined
+}
+
+function deleteItem(name) {
+  clicked.value = undefined
+
+  delete positions[name]
+  localStorage.setItem('positions', JSON.stringify(positions))
+
+  const key = Object.keys(matches).find((key) => matches[key].name === name);
+
+  delete matches[key]
+}
+
 onMounted(() => {
   const cellElements = document.getElementsByClassName("cell");
   const draggableElements = document.getElementsByClassName('item');
 
   for (let i = 0; i < draggableElements.length; i++) {
     draggableElements[i].addEventListener("dragstart", dragstart_handler);
+    draggableElements[i].addEventListener("click", click_handler);
   }
 
   for (let i = 0; i < cellElements.length; i++) {
@@ -109,5 +145,6 @@ ul {
 .item {
   width: 70%;
   height: 70%;
+  cursor: url("../assets/cursor_clarity.svg") 18 21, pointer;
 }
 </style>
