@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ToggleTheme />
     <ul class="grid">
       <li v-for="gridCell in gridList" :key="gridCell" class="cell" :id="gridCell">
         <img 
@@ -26,6 +27,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import ItemDescription from './ItemDescription.vue'
+import ToggleTheme from './ToggleTheme.vue'
 import greenSvg from '../assets/green.svg'
 import yellowSvg from '../assets/yellow.svg'
 import purpleSvg from '../assets/purple.svg'
@@ -37,22 +39,22 @@ const clicked = ref()
 const positions = JSON.parse(localStorage.getItem('positions')) || {};
 
 const items = [{
-    name: 'green',
+    name: 'Green item',
     fileName: greenSvg,
     position: Number(positions.green) || 0,
-    desctiption: 'some desctiption'
+    desctiption: 'Nunc quis convallis nulla. In ac auctor elit. Curabitur luctus nibh non risus maximus pellentesque. Nunc fermentum ante vel elit auctor, a venenatis enim convallis. Vivamus eleifend urna quis augue ornare ornare. Nunc vehicula hendrerit elit sed dignissim. Nam mollis augue massa, bibendum fringilla turpis iaculis id. Quisque ipsum libero, efficitur a sem in, viverra faucibus tellus. Nunc quis libero accumsan, pharetra neque lacinia, aliquam lectus.'
   }, 
   {
-    name: 'yellow',
+    name: 'Yellow item',
     fileName: yellowSvg,
     position: Number(positions.yellow) || 1,
-    desctiption: 'some desctiption'
+    desctiption: 'Proin porta risus vitae massa ornare, at interdum sapien commodo. Donec aliquam lorem nulla.'
   },
   {
-    name: 'purple',
+    name: 'Purple item',
     fileName: purpleSvg,
     position: Number(positions.purple) || 2,
-    desctiption: 'some desctiption'
+    desctiption: 'In vestibulum ante ut magna aliquet accumsan. Vestibulum est ex, vulputate eget enim vel, faucibus interdum risus.'
   }
 ]
 
@@ -82,7 +84,10 @@ function dragover_handler(ev) {
 
 function drop_handler(ev) {
   ev.preventDefault();
-  ev.target.appendChild(trigger.value);
+
+  if (ev.target.id && gridList.includes(Number(ev.target.id))) {
+    ev.target.appendChild(trigger.value);
+  }
 
   positions[trigger.value.id] = ev.target.id
 
@@ -131,7 +136,7 @@ ul {
   padding: 0;
 }
 .grid {
-  background: #262626;
+  background: transparent;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
@@ -157,9 +162,5 @@ ul {
   width: 70%;
   height: 70%;
   cursor: url("../assets/cursor_clarity.svg") 18 21, pointer;
-}
-.item:active {
-  cursor: inherit;
-  user-select: none !important;
 }
 </style>

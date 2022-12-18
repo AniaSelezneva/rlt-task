@@ -22,8 +22,14 @@ export default {
   color: #2c3e50;
   display: flex;
   justify-content: flex-end;
+  background: #d4d2d2;
+}
+#app.dark {
+  background: #1E1E1E;
 }
 body {
+  overflow-x: hidden;
   background: #1E1E1E;
+  margin: 0;
 }
 </style>

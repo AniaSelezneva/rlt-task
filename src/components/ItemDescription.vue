@@ -32,27 +32,48 @@ const props = defineProps(['name', 'desctiption', 'src'])
     right: 0;
     top: 0;
     min-width: 250px;
-    margin-top: 23px;
+    margin-top: 15px;
     height: calc(100vh - 30px);
     width: 50vw;
-    background: rgba(38, 38, 38, 0.5);
+    max-width: 500px;
     border: 1px solid #4D4D4D;
     color: #4D4D4D;
     backdrop-filter: blur(8px);
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    animation: 2s forwards slidein;
+    background: #d4d2d2;
 }
+.dark .description {
+    background: rgba(38, 38, 38, 0.5);
+}
+@keyframes slidein {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
 .img_container {
-    height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid #4D4D4D;
     margin-left: 15px;
     margin-right: 15px;
+    flex-grow: 1;
 }
 .img_container > img {
     min-height: 50%;
+}
+.description > p {
+    flex-grow: 1;
+    padding: 20px;
 }
 .close_btn {
     color: #FFFFFF;
