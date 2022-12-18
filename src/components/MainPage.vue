@@ -29,6 +29,7 @@ import ItemDescription from './ItemDescription.vue'
 import greenSvg from '../assets/green.svg'
 import yellowSvg from '../assets/yellow.svg'
 import purpleSvg from '../assets/purple.svg'
+import cursorGrab from '../assets/cursor_grab.svg'
 
 const trigger = ref()
 const clicked = ref()
@@ -58,6 +59,9 @@ const items = [{
 const gridList = [];
 const matches = {};
 
+let grabImg = new Image();
+grabImg.src = cursorGrab;
+
 for (let i = 0; i < 25; i++) {
   gridList.push(i);
   const idx = items.findIndex(item => item.position === i)
@@ -68,14 +72,12 @@ for (let i = 0; i < 25; i++) {
 
 function dragstart_handler(ev) {
   trigger.value = ev.srcElement;
+  ev.dataTransfer.setDragImage(grabImg, 0, 0);
 }
 
 function dragover_handler(ev) {
   ev.preventDefault();
   ev.dataTransfer.dropEffect = "move";
-  let img = new Image();
-  img.src = require("../assets/cursor_grab.png");
-  ev.dataTransfer.setDragImage(img, 18, 21);
 }
 
 function drop_handler(ev) {
@@ -134,7 +136,10 @@ ul {
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   gap: 1px;
-  height: 100vh;
+  height: calc(100vh - 30px);
+  width: calc(100vh - 30px);
+  border-radius: 12px;
+  outline: 1px solid #4D4D4D;
 }
 .grid > li {
   outline: 1px solid #4D4D4D;
@@ -142,9 +147,19 @@ ul {
   justify-content: center;
   align-items: center;
 }
+.grid > li:nth-child(1),
+.grid > li:nth-child(5),
+.grid > li:nth-child(21),
+.grid > li:nth-child(25) {
+  outline: none;
+} 
 .item {
   width: 70%;
   height: 70%;
   cursor: url("../assets/cursor_clarity.svg") 18 21, pointer;
+}
+.item:active {
+  cursor: inherit;
+  user-select: none !important;
 }
 </style>
