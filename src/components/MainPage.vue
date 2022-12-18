@@ -39,21 +39,21 @@ const clicked = ref()
 const positions = JSON.parse(localStorage.getItem('positions')) || {};
 
 const items = [{
-    name: 'Green item',
+    name: 'green',
     fileName: greenSvg,
-    position: Number(positions.green) || 0,
+    position: positions.green != undefined ? Number(positions.green) : 0,
     desctiption: 'Nunc quis convallis nulla. In ac auctor elit. Curabitur luctus nibh non risus maximus pellentesque. Nunc fermentum ante vel elit auctor, a venenatis enim convallis. Vivamus eleifend urna quis augue ornare ornare. Nunc vehicula hendrerit elit sed dignissim. Nam mollis augue massa, bibendum fringilla turpis iaculis id. Quisque ipsum libero, efficitur a sem in, viverra faucibus tellus. Nunc quis libero accumsan, pharetra neque lacinia, aliquam lectus.'
   }, 
   {
-    name: 'Yellow item',
+    name: 'yellow',
     fileName: yellowSvg,
-    position: Number(positions.yellow) || 1,
+    position: positions.yellow != undefined ? Number(positions.yellow) : 1,
     desctiption: 'Proin porta risus vitae massa ornare, at interdum sapien commodo. Donec aliquam lorem nulla.'
   },
   {
-    name: 'Purple item',
+    name: 'purple',
     fileName: purpleSvg,
-    position: Number(positions.purple) || 2,
+    position: positions.purple != undefined ? Number(positions.purple) : 2,
     desctiption: 'In vestibulum ante ut magna aliquet accumsan. Vestibulum est ex, vulputate eget enim vel, faucibus interdum risus.'
   }
 ]

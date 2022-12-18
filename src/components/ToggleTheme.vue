@@ -7,13 +7,12 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-const isDarkMode = ref()
-isDarkMode.value = 'true';
+const isDarkMode = ref(true)
 const appEl = document.getElementById('app');
 
 function checkbox_handler() {
-  isDarkMode.value = isDarkMode.value === 'true' ? 'false' : 'true';
-  if (isDarkMode.value === 'true') {
+  isDarkMode.value = !isDarkMode.value;
+  if (isDarkMode.value) {
     appEl.classList.add('dark');
   } else {
     appEl.classList.remove('dark');

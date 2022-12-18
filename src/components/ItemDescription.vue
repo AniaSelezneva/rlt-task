@@ -6,7 +6,7 @@
             :alt="`${name} inventory item`" 
             :src="src" />
     </div>
-    <h3>{{props.name}}</h3>
+    <h3>{{`${props.name.charAt(0).toUpperCase() + props.name.slice(1)} inventory item`}}</h3>
     <p>{{props.desctiption}}</p>
     <button class="close_btn" @click="$emit('close')">
         <img 
