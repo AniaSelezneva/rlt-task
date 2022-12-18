@@ -36,14 +36,6 @@ import cursorGrab from '../assets/cursor_grab.svg'
 const trigger = ref()
 const clicked = ref()
 
-function getPosition(color, defaultPosition) {
-  return positions[color] != undefined 
-      ? Number(positions[color]) 
-      : !Object.values(positions).includes(`${defaultPosition}`) 
-        ? defaultPosition 
-        : Number(Object.values(positions)[Object.values(positions).length - 1]) + 1
-}
-
 const positions = JSON.parse(localStorage.getItem('positions')) || {};
 
 const items = [{
@@ -113,12 +105,17 @@ function closeDescription() {
 function deleteItem(name) {
   clicked.value = undefined
 
-  delete positions[name]
-  localStorage.setItem('positions', JSON.stringify(positions))
-
   const key = Object.keys(matches).find((key) => matches[key].name === name);
 
   delete matches[key]
+}
+
+function getPosition(color, defaultPosition) {
+  return positions[color] != undefined 
+      ? Number(positions[color]) 
+      : !Object.values(positions).includes(`${defaultPosition}`) 
+        ? defaultPosition 
+        : Number(Object.values(positions)[Object.values(positions).length - 1]) + 1;
 }
 
 onMounted(() => {
