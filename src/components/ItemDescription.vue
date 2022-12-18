@@ -76,7 +76,6 @@ const props = defineProps(['name', 'desctiption', 'src'])
     padding: 20px;
 }
 .close_btn {
-    color: #FFFFFF;
     position: absolute;
     top: 14px;
     right: 14px;
@@ -87,6 +86,10 @@ const props = defineProps(['name', 'desctiption', 'src'])
     display: flex;
     justify-content: center;
     cursor: pointer;
+    filter: brightness(0%);
+}
+.dark .close_btn {
+   filter: none;
 }
 .delete_btn {
     position: absolute;
